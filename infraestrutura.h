@@ -1,0 +1,1 @@
+int * coleta_frequencia(char * amostra);
