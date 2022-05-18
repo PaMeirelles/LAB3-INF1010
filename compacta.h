@@ -1,0 +1,1 @@
+unsigned char * binaria_para_vetor(char * string_binaria);
