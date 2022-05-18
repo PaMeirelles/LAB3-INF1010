@@ -57,7 +57,7 @@ s_node * cria_min_heap(int * frequencias){
   return min_heap;
 }
 
-// Recebe o vetor de frequencias e devolve a raiz para o nó correspondente 
+// Recebe o vetor de frequencias e devolve a raiz da árvore de huffman correspondente
 s_node * cria_arvore(char * frequencias);
 
 
