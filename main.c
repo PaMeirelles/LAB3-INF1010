@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "compacta.h" 
-
-
+#include "descompacta.h" 
+#include "infraestrutura.h"
 void pa(s_node * raiz)
 {
   if(raiz->left_child)
@@ -30,8 +30,10 @@ int main(void)
 
   preenche_tabela(arvore, tabela);
   
-  char * string = string_para_binaria(teste, tabela);
-  printf("%s", string);
+  char * bin = string_para_binaria(teste, tabela);
+  // printf("%s\n", bin);
+  char * normal = binaria_para_string(bin, arvore);
+  //printf("%s\n", normal);
 
   //pa(arvore);
   

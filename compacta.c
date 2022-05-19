@@ -29,7 +29,7 @@ char * string_para_binaria(char * string, char tabela[128][128]){
 
   while(*string){
     strcat(str, tabela[*string]);
-    printf("%c: %s\n", *string, tabela[*string]);
+    //printf("%c: %s\n", *string, tabela[*string]);
     string++;
   }
   return str;
