@@ -24,7 +24,23 @@ void preenche_tabela(s_node * raiz, char tabela[128][128]){
 }
 
 // Percorre a string substituindo cada char pelo código correspondente e devolve a string binária que resulta desse processo
-char * string_para_binaria(char * string);
+char * string_para_binaria(char * string){
+  char * str = (char *)malloc(1);
+  
+  int * frequencias = coleta_frequencia(string);
+  s_node * min_heap = cria_min_heap(frequencias);
+  s_node * arvore = cria_arvore(min_heap);
+  char tabela[128][128];
+
+  preenche_tabela(arvore, tabela);
+
+  while(*string){
+    strcat(str, tabela[*string]);
+    //printf("%c: %s\n", *string, tabela[*string]);
+    string++;
+  }
+  return str;
+}
 
 // Recebe uma string binária, agrupa os zeros e uns 8 a 8 para formar um vetor de bytes e devolve esse vetor
 unsigned char * binaria_para_vetor(char * string_binaria)

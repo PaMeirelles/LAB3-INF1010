@@ -21,14 +21,8 @@ void pa(s_node * raiz)
 
 int main(void)
 {
-  char * teste = "abcdefghijklmnopqrstuvwxyzAABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ!!!@@@###$$$%%%¨¨¨&&&***((()))";
-  int * frequencias = coleta_frequencia(teste);
-  s_node * min_heap = cria_min_heap(frequencias);
-
-  s_node * arvore = cria_arvore(min_heap);
-  char tabela[128][128];
-
-  preenche_tabela(arvore, tabela);
+  char * teste = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabfbseiofsefkw=-ero3-r-ror=";
+  //printf("%s", string_para_binaria(teste));
 
   //pa(arvore);
   
