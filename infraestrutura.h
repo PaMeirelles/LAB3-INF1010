@@ -9,7 +9,7 @@ typedef struct node
  char codigo[128];
 } s_node;
 #endif
-
+#include <stdio.h>
 int * coleta_frequencia(char * amostra);
 s_node * cria_min_heap(int * frequencias);
 s_node * cria_arvore(s_node * min_heap);

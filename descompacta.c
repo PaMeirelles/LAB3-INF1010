@@ -19,7 +19,24 @@ char codigo_para_char(char * codigo, s_node * raiz, int * profundidade){
 }
 
 // Recebe um vetor de bytes e junta numa string binária 
-char * vetor_para_binaria(unsigned char * vetor_de_bytes);
+char * vetor_para_binaria(unsigned char * vetor_de_bytes){
+  char * bin = (char *)malloc(10000);
+  while(*vetor_de_bytes){
+    for(int i=0; i < 8; i++){
+      char to_append;
+      if(((*vetor_de_bytes << i) & 0x80) != 0x80){
+        to_append = '0';
+      }
+      else{
+        to_append = '1';
+    }
+      printf("%c", to_append);
+      strncat(bin, &to_append, 1);
+      }
+    vetor_de_bytes++;
+  }
+  return bin;
+}
 
 // Recebe uma string binária e percorre a mesma substituindo cada código por seu caractere 
 char * binaria_para_string(char * string_binaria, s_node * arvore){
@@ -34,5 +51,21 @@ char * binaria_para_string(char * string_binaria, s_node * arvore){
   return str;
 }
 
+
+unsigned char * arquivo_para_vetor(FILE * arquivo_compactado){
+  unsigned char * vetor = (unsigned char*)malloc(10000);
+    fread(vetor, 1, 748, arquivo_compactado);
+  return vetor;
+}
+
 // Lê o arquivo compactado, transforma o vetor de bytes correspondente numa string normal e grava a string no arquivo texto
-void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto);
+void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto){
+  unsigned char * vetor;
+  char * bin;
+
+  vetor = arquivo_para_vetor(arquivo_compactado);
+  bin = vetor_para_binaria(vetor);
+
+  //printf("%s", bin);
+  
+}

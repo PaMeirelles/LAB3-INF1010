@@ -32,6 +32,13 @@ int main(void)
   //printf("\n%s\n", teste);
   s_node * arvore = arvore_do_zero(teste);
   compacta(teste, compactado, arvore);
+
+  fclose(texto);
+  fclose(compactado);
+
+  FILE * comp = fopen("compactado.dat", "rb");
+  FILE * txt = fopen("novo.txt", "w");
+  descompacta(comp, txt);
   
   //char tabela[128][128];
 
