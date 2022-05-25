@@ -23,7 +23,7 @@ char * vetor_para_binaria(unsigned char * vetor_de_bytes);
 
 // Recebe uma string binária e percorre a mesma substituindo cada código por seu caractere 
 char * binaria_para_string(char * string_binaria, s_node * arvore){
-  char * str = (char *)malloc(2000);
+  char * str = (char *)malloc(10000);
   int percorridos = 0;
    while(*string_binaria){
      char prox = codigo_para_char(string_binaria, arvore, &percorridos);

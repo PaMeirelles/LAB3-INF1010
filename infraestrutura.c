@@ -165,6 +165,66 @@ void printa_heap(s_node * min_heap){
   }
 }
 
+// troca elementos
+void swap(int *a, int *b) 
+{
+  int tmp = *a;
+  *a = *b;
+  *b = tmp;
+}
 
+// function to find the partition position
+int partition(int array[], int low, int high) 
+{
+  // seleciona o elemento mais a direita como pivot
+  int pivot = array[high];
+  
+  // ponteiro para maior elemento
+  int i = (low - 1);
 
+  // percorre cada elemento do array e compara com o pivot
+  for (int j = low; j < high; j++) 
+  {
+    if (array[j] <= pivot) 
+    {
+      // se um elemento menor que o pivot for encontrado
+      // troca ele com o maior elemento (i)
+      i++;
+      swap(&array[i], &array[j]);
+    }
+  }
 
+  // swap the pivot element with the greater element at i
+  // troca o elemento pivot com o maior elemento (i)
+  swap(&array[i + 1], &array[high]);
+  
+  // retorna o ponto de partição
+  return (i + 1);
+}
+
+void quickSort(int array[], int low, int high) 
+{
+  if (low < high) 
+  {
+    // find the pivot element such that
+    // elements smaller than pivot are on left of pivot
+    // elements greater than pivot are on right of pivot
+
+    // encotra o pivot tal que os elementos menores que ele estão na esquerda
+    // e os maiores estão na direita
+    int pivot = partition(array, low, high);
+    
+    // recurção para a esquerda do pivot
+    quickSort(array, low, pivot - 1);
+    
+    // recurção para a direita do pivot
+    quickSort(array, pivot + 1, high);
+  }
+  }
+
+s_node * arvore_do_zero(char * texto){
+  int * frequencias = coleta_frequencia(texto);
+  s_node * min_heap = cria_min_heap(frequencias);
+  s_node * arvore = cria_arvore(min_heap);
+  return arvore;
+}

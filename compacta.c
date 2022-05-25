@@ -25,7 +25,7 @@ void preenche_tabela(s_node * raiz, char tabela[128][128]){
 
 // Percorre a string substituindo cada char pelo código correspondente e devolve a string binária que resulta desse processo
 char * string_para_binaria(char * string, char tabela[128][128]){
-  char * str = (char *)malloc(2000);
+  char * str = (char *)malloc(10000);
 
   while(*string){
     strcat(str, tabela[*string]);
@@ -49,26 +49,26 @@ unsigned char * binaria_para_vetor(char * string_binaria)
   {
     vetor = (unsigned char *)malloc(len/8 + 1);
   }
-  while(len > 0)
+  for(int i=0; i < len; i+=8)
   {
     byte = 0;
-    for(int i=0; i<8;i++)
+    for(int j=0; j<8;j++)
     {
       if(!*string_binaria)
       {
         break;
       }
-      byte += (*string_binaria - '0') << (7-i);
+      byte += (*string_binaria - '0') << (7-j);
       string_binaria++;
     }
-    *vetor=byte;  
-    vetor++;
-    len -= 8;
+    vetor[i/8]=byte;  
+    //printf("%x %d\n", byte, i);
   }
+  return vetor;
 }
 
 // Lê o arquivo texto, transforma a string num vetor de bytes e grava esse vetor no arquivo fornecido
-void compacta(FILE * arquivo_texto, FILE * arquivo_compactado)
+char * le_arquivo(FILE * arquivo_texto)
 {
   long lSize;
   char *vetor_arq_str;
@@ -96,4 +96,24 @@ void compacta(FILE * arquivo_texto, FILE * arquivo_compactado)
     fputs("entire read fails",stderr);
     exit(1);
   }
+  return vetor_arq_str;
+}
+
+void grava_arquivo(unsigned char * vetor, FILE * arquivo_compactado){
+  while(*vetor){
+    fwrite(vetor, 1, 1, arquivo_compactado);
+    vetor++;
+  }
+}
+
+void compacta(char * texto, FILE * compactado, s_node * arvore){
+  char tabela[128][128];
+  char * bin;
+  unsigned char * vetor;
+  
+  preenche_tabela(arvore, tabela);
+  bin = string_para_binaria(texto, tabela);
+  vetor = binaria_para_vetor(bin);
+
+  grava_arquivo(vetor, compactado);
 }

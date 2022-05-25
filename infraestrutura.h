@@ -1,6 +1,7 @@
 #ifndef SOME_HEADER_GUARD_WITH_UNIQUE_NAME
 #define SOME_HEADER_GUARD_WITH_UNIQUE_NAME
-typedef struct node{
+typedef struct node
+{
  int value;
  char symbol;
  struct node * left_child;
@@ -8,7 +9,13 @@ typedef struct node{
  char codigo[128];
 } s_node;
 #endif
+
 int * coleta_frequencia(char * amostra);
 s_node * cria_min_heap(int * frequencias);
 s_node * cria_arvore(s_node * min_heap);
 void printa_heap(s_node * heap);
+
+void swap(int *a, int *b);
+int partition(int array[], int low, int high);
+void quickSort(int array[], int low, int high);
+s_node * arvore_do_zero(char * texto);

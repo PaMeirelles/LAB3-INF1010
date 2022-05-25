@@ -21,21 +21,26 @@ void pa(s_node * raiz)
 
 int main(void)
 {
-  char * teste = "Rafael Paladini Meirelles e Ricardo Leta(mb n sei o outro sobrenome) sao(americano burro nao usa til ent n tem na ascii) os autores desse trabalho incrivel, lindo e maravilhoso";
-  
-  int * frequencias = coleta_frequencia(teste);
-  s_node * min_heap = cria_min_heap(frequencias);
-  s_node * arvore = cria_arvore(min_heap);
-  char tabela[128][128];
+  //char * teste = "Rafael Paladini Meirelles e Ricardo Leta(mb n sei o outro sobrenome) sao(americano burro nao usa til ent n tem na ascii) os autores desse trabalho incrivel, lindo e maravilhoso";
 
-  preenche_tabela(arvore, tabela);
   
-  char * bin = string_para_binaria(teste, tabela);
-  // printf("%s\n", bin);
-  char * normal = binaria_para_string(bin, arvore);
-  //printf("%s\n", normal);
+  FILE * texto = fopen("texto.txt", "r");
+  FILE * compactado = fopen("compactado.dat", "wb");
+  
+  char * teste = le_arquivo(texto);
 
-  //pa(arvore);
+  //printf("\n%s\n", teste);
+  s_node * arvore = arvore_do_zero(teste);
+  compacta(teste, compactado, arvore);
   
+  //char tabela[128][128];
+
+  //preenche_tabela(arvore, tabela);
+    
+  //char * bin = string_para_binaria(teste, tabela);
+  //printf("\n%s\n", bin);
+  //char * normal = binaria_para_string(bin, arvore);
+  //printf("\n %s\n", normal);
+
   return 0;
 }
