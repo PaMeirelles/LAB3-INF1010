@@ -58,6 +58,7 @@ unsigned char * arquivo_para_vetor(FILE * arquivo_compactado){
   return vetor;
 }
 
+
 // Lê o arquivo compactado, transforma o vetor de bytes correspondente numa string normal e grava a string no arquivo texto
 void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto, s_node * arvore){
   unsigned char * vetor;
@@ -68,7 +69,9 @@ void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto, s_node * arvor
   bin = vetor_para_binaria(vetor);
   texto = binaria_para_string(bin, arvore);
 
-  printf("%s", texto);
+  //printf("%s", texto);
   //printf("%s", bin);
+
+  fwrite(texto, 1, strlen(texto), arquivo_texto);
   
 }
