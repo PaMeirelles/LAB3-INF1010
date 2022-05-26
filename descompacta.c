@@ -20,7 +20,7 @@ char codigo_para_char(char * codigo, s_node * raiz, int * profundidade){
 
 // Recebe um vetor de bytes e junta numa string binária 
 char * vetor_para_binaria(unsigned char * vetor_de_bytes){
-  char * bin = (char *)malloc(10000);
+  char * bin = (char *)malloc(MAXSIZE * 128);
   while(*vetor_de_bytes){
     for(int i=0; i < 8; i++){
       char to_append;
@@ -40,7 +40,7 @@ char * vetor_para_binaria(unsigned char * vetor_de_bytes){
 
 // Recebe uma string binária e percorre a mesma substituindo cada código por seu caractere 
 char * binaria_para_string(char * string_binaria, s_node * arvore){
-  char * str = (char *)malloc(10000);
+  char * str = (char *)malloc(MAXSIZE);
   int percorridos = 0;
    while(*string_binaria){
      char prox = codigo_para_char(string_binaria, arvore, &percorridos);
