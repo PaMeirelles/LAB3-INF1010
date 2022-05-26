@@ -34,7 +34,6 @@ char * string_para_binaria(char * string, char tabela[256][256], long * binary_s
     string++;
     *binary_size += strlen(buffer);
   }
-
   return str;
 }
 

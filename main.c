@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "compacta.h" 
 #include "descompacta.h" 
 #include "infraestrutura.h"
@@ -27,6 +28,8 @@ int main(void)
   FILE * compactado = fopen("compactado.dat", "wb");
   long size;
   char * teste = le_arquivo(texto);
+  char fim = 3;
+  strncat(teste, &fim, 1);
 
   //printf("\n%s\n", teste);
   s_node * arvore = arvore_do_zero(teste);

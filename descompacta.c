@@ -43,6 +43,9 @@ char * binaria_para_string(char * string_binaria, s_node * arvore){
   int percorridos = 0;
    while(*string_binaria){
      char prox = codigo_para_char(string_binaria, arvore, &percorridos);
+     if(prox == (char)3){
+       break;
+     }
      strncat(str, &prox, 1);
      string_binaria += percorridos;
      percorridos = 0;
