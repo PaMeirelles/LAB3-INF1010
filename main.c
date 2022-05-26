@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "compacta.h" 
 #include "descompacta.h" 
 #include "infraestrutura.h"
@@ -37,10 +38,14 @@ int main(void)
 
   fclose(texto);
   fclose(compactado);
+  free(teste);
 
   FILE * comp = fopen("compactado.dat", "rb");
   FILE * txt = fopen("novo.txt", "w");
   descompacta(comp, txt, arvore, size);
+
+  fclose(comp);
+  fclose(txt);
   
   //char tabela[128][128];
 
