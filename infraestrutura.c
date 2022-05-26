@@ -226,5 +226,8 @@ s_node * arvore_do_zero(char * texto){
   int * frequencias = coleta_frequencia(texto);
   s_node * min_heap = cria_min_heap(frequencias);
   s_node * arvore = cria_arvore(min_heap);
+
+  free(frequencias);
+  free(min_heap);
   return arvore;
 }
