@@ -46,6 +46,7 @@ int main(void)
 
   fclose(comp);
   fclose(txt);
+  libera_arvore(arvore);
   
   //char tabela[128][128];
 

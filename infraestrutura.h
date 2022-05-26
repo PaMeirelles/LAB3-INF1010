@@ -20,3 +20,4 @@ void swap(int *a, int *b);
 int partition(int array[], int low, int high);
 void quickSort(int array[], int low, int high);
 s_node * arvore_do_zero(char * texto);
+void libera_arvore(s_node * raiz);
