@@ -38,7 +38,7 @@ int main(void)
 
   FILE * comp = fopen("compactado.dat", "rb");
   FILE * txt = fopen("novo.txt", "w");
-  descompacta(comp, txt, arvore);
+  descompacta(comp, txt, arvore, size);
   
   //char tabela[128][128];
 

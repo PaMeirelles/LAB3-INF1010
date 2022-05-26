@@ -25,7 +25,7 @@ void preenche_tabela(s_node * raiz, char tabela[128][128]){
 
 // Percorre a string substituindo cada char pelo código correspondente e devolve a string binária que resulta desse processo
 char * string_para_binaria(char * string, char tabela[128][128], long * binary_size){
-  char * str = (char *)malloc(128 * 128);
+  char * str = (char *)malloc(MAXSIZE);
   char * buffer = (char*)malloc(128);
   while(*string){
     strcpy(buffer, tabela[*string]);

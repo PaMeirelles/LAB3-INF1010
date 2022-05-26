@@ -10,6 +10,7 @@ typedef struct node
 } s_node;
 #endif
 #include <stdio.h>
+#define MAXSIZE 10000
 int * coleta_frequencia(char * amostra);
 s_node * cria_min_heap(int * frequencias);
 s_node * cria_arvore(s_node * min_heap);

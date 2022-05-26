@@ -52,20 +52,20 @@ char * binaria_para_string(char * string_binaria, s_node * arvore){
 }
 
 
-unsigned char * arquivo_para_vetor(FILE * arquivo_compactado){
-  unsigned char * vetor = (unsigned char*)malloc(10000);
-    fread(vetor, 1, 748, arquivo_compactado);
+unsigned char * arquivo_para_vetor(FILE * arquivo_compactado, long size){
+  unsigned char * vetor = (unsigned char*)malloc(size + 1);
+  fread(vetor, 1, size, arquivo_compactado);
   return vetor;
 }
 
 
 // Lê o arquivo compactado, transforma o vetor de bytes correspondente numa string normal e grava a string no arquivo texto
-void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto, s_node * arvore){
+void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto, s_node * arvore, long size){
   unsigned char * vetor;
   char * bin;
   char * texto;
 
-  vetor = arquivo_para_vetor(arquivo_compactado);
+  vetor = arquivo_para_vetor(arquivo_compactado, size);
   bin = vetor_para_binaria(vetor);
   texto = binaria_para_string(bin, arvore);
 
