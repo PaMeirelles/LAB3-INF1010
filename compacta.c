@@ -65,7 +65,7 @@ unsigned char * binaria_para_vetor(char * string_binaria, long len)
 }
 
 // Lê o arquivo texto, transforma a string num vetor de bytes e grava esse vetor no arquivo fornecido
-char * le_arquivo(FILE * arquivo_texto, long * size)
+char * le_arquivo(FILE * arquivo_texto)
 {
   long lSize;
   char *vetor_arq_str;
@@ -93,12 +93,11 @@ char * le_arquivo(FILE * arquivo_texto, long * size)
     fputs("entire read fails",stderr);
     exit(1);
   }
-  *size = lSize;
   return vetor_arq_str;
 }
 
 
-void compacta(char * texto, FILE * compactado, s_node * arvore, long size){
+void compacta(char * texto, FILE * compactado, s_node * arvore, long * tam_final){
   char tabela[128][128];
   char * bin;
   unsigned char * vetor;
@@ -108,5 +107,6 @@ void compacta(char * texto, FILE * compactado, s_node * arvore, long size){
   bin = string_para_binaria(texto, tabela, &binary_size);
   vetor = binaria_para_vetor(bin, binary_size);
 
-  fwrite(vetor, (binary_size + 7) / 8, 1, compactado);
+  *tam_final = (binary_size + 7) / 8;
+  fwrite(vetor, *tam_final, 1, compactado);
 }

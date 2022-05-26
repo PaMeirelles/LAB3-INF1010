@@ -27,11 +27,11 @@ int main(void)
   FILE * texto = fopen("texto.txt", "r");
   FILE * compactado = fopen("compactado.dat", "wb");
   long size;
-  char * teste = le_arquivo(texto, &size);
+  char * teste = le_arquivo(texto);
 
   //printf("\n%s\n", teste);
   s_node * arvore = arvore_do_zero(teste);
-  compacta(teste, compactado, arvore, size);
+  compacta(teste, compactado, arvore, &size);
 
   fclose(texto);
   fclose(compactado);
