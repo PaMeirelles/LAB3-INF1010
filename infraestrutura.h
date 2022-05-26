@@ -6,7 +6,7 @@ typedef struct node
  char symbol;
  struct node * left_child;
  struct node * right_child;
- char codigo[128];
+ char codigo[256];
 } s_node;
 #endif
 #include <stdio.h>

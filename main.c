@@ -23,8 +23,7 @@ int main(void)
 {
   //char * teste = "Rafael Paladini Meirelles e Ricardo Leta(mb n sei o outro sobrenome) sao(americano burro nao usa til ent n tem na ascii) os autores desse trabalho incrivel, lindo e maravilhoso";
 
-  
-  FILE * texto = fopen("texto.txt", "r");
+  FILE * texto = fopen("poema_certo.txt", "r");
   FILE * compactado = fopen("compactado.dat", "wb");
   long size;
   char * teste = le_arquivo(texto);

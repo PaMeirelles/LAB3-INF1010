@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 // Percorre a árvore e devolve uma tabela com os códigos de cada símbolo
-void preenche_tabela(s_node * raiz, char tabela[128][128]){
+void preenche_tabela(s_node * raiz, char tabela[256][256]){
   if(raiz->left_child){
     strcpy(raiz->left_child->codigo, raiz->codigo);
     char a[] = "0"; 
@@ -18,17 +18,17 @@ void preenche_tabela(s_node * raiz, char tabela[128][128]){
     preenche_tabela(raiz->right_child, tabela);
   }
   if(!raiz->left_child && !raiz->right_child){
-    strcpy(tabela[raiz->symbol], raiz->codigo);
+    strcpy(tabela[(unsigned char)raiz->symbol], raiz->codigo);
     //printf("Posição %d(%c) possui %s\n", raiz->symbol, raiz->symbol, tabela[raiz->symbol]);
   }
 }
 
 // Percorre a string substituindo cada char pelo código correspondente e devolve a string binária que resulta desse processo
-char * string_para_binaria(char * string, char tabela[128][128], long * binary_size){
+char * string_para_binaria(char * string, char tabela[256][256], long * binary_size){
   char * str = (char *)malloc(MAXSIZE);
-  char * buffer = (char*)malloc(128);
+  char * buffer = (char*)malloc(256);
   while(*string){
-    strcpy(buffer, tabela[*string]);
+    strcpy(buffer, tabela[(unsigned char)*string]);
     strcat(str, buffer);
     //printf("%c: %s\n", *string, tabela[*string]);
     string++;
@@ -98,7 +98,7 @@ char * le_arquivo(FILE * arquivo_texto)
 
 
 void compacta(char * texto, FILE * compactado, s_node * arvore, long * tam_final){
-  char tabela[128][128];
+  char tabela[256][256];
   char * bin;
   unsigned char * vetor;
   long binary_size = 0;
@@ -106,7 +106,6 @@ void compacta(char * texto, FILE * compactado, s_node * arvore, long * tam_final
   preenche_tabela(arvore, tabela);
   bin = string_para_binaria(texto, tabela, &binary_size);
   vetor = binaria_para_vetor(bin, binary_size);
-
   *tam_final = (binary_size + 7) / 8;
   fwrite(vetor, *tam_final, 1, compactado);
 }

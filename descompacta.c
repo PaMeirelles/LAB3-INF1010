@@ -19,12 +19,12 @@ char codigo_para_char(char * codigo, s_node * raiz, int * profundidade){
 }
 
 // Recebe um vetor de bytes e junta numa string binária 
-char * vetor_para_binaria(unsigned char * vetor_de_bytes){
-  char * bin = (char *)malloc(MAXSIZE * 128);
-  while(*vetor_de_bytes){
-    for(int i=0; i < 8; i++){
+char * vetor_para_binaria(unsigned char * vetor_de_bytes, long size){
+  char * bin = (char *)malloc(MAXSIZE * 256);
+  for(int i=0; i < size; i++){
+    for(int j=0; j < 8; j++){
       char to_append;
-      if(((*vetor_de_bytes << i) & 0x80) != 0x80){
+      if(((vetor_de_bytes[i] << j) & 0x80) != 0x80){
         to_append = '0';
       }
       else{
@@ -33,7 +33,6 @@ char * vetor_para_binaria(unsigned char * vetor_de_bytes){
       //printf("%c", to_append);
       strncat(bin, &to_append, 1);
       }
-    vetor_de_bytes++;
   }
   return bin;
 }
@@ -66,7 +65,7 @@ void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto, s_node * arvor
   char * texto;
 
   vetor = arquivo_para_vetor(arquivo_compactado, size);
-  bin = vetor_para_binaria(vetor);
+  bin = vetor_para_binaria(vetor, size);
   texto = binaria_para_string(bin, arvore);
 
   //printf("%s", texto);

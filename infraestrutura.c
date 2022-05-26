@@ -5,16 +5,16 @@
 // Recebe um vetor de char com a amostra e devolve um vetor de char indexado pelo código ASCII com a frequência daquele char na amostra
 int * coleta_frequencia(char * amostra)
 {
-  int * vetor_de_frequencias = (int *)malloc(128 * 4);
+  int * vetor_de_frequencias = (int *)malloc(256 * 4);
 
-  for(int i=0; i<128;i++)
+  for(int i=0; i<256;i++)
   {
     vetor_de_frequencias[i] = 0;
   }
   
   while(*amostra)
   {
-    vetor_de_frequencias[*amostra]++;
+    vetor_de_frequencias[(unsigned char)*amostra]++;
     amostra++;
   }
   
@@ -51,15 +51,15 @@ void insere_no_mh(s_node heap[], s_node no, int tam)
 // Recebe o vetor de frequências e devolve a raiz do min heap correspondente
 s_node * cria_min_heap(int * frequencias)
 {
-  s_node * min_heap = (s_node *)malloc(128 * sizeof(s_node));
+  s_node * min_heap = (s_node *)malloc(256 * sizeof(s_node));
   
-  for(int i=0; i<128; i++)
+  for(int i=0; i<256; i++)
   {
     s_node no = {.value = frequencias[i], .symbol=(char)i, .left_child=NULL, .right_child=NULL};
     insere_no_mh(min_heap, no, i);
   }
   /*
-  for(int i =0; i<128; i++){
+  for(int i =0; i<256; i++){
     printf("%c %d\n", min_heap[i].symbol,  min_heap[i].value);
   }*/
   
@@ -127,7 +127,7 @@ void printa_arvore(s_node * raiz)
 // Recebe o vetor de frequencias e devolve a raiz da árvore de huffman correspondente
 s_node * cria_arvore(s_node * min_heap)
 {
-  int tam_heap = 128;
+  int tam_heap = 256;
   
   while(tam_heap > 1)
   {
@@ -160,7 +160,7 @@ s_node * cria_arvore(s_node * min_heap)
 
 
 void printa_heap(s_node * min_heap){
-  for(int i=0; i<128;i++){
+  for(int i=0; i<256;i++){
     printf("%d Simbolo: %c, Valor: %d\n", i, min_heap[i].symbol, min_heap[i].value);
   }
 }
