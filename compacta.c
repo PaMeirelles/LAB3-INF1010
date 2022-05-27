@@ -34,7 +34,6 @@ char * string_para_binaria(char * string, char tabela[256][256], long * binary_s
     string++;
     *binary_size += strlen(buffer);
   }
-  free(buffer);
   return str;
 }
 
@@ -107,12 +106,5 @@ void compacta(char * texto, FILE * compactado, s_node * arvore, long * tam_final
   bin = string_para_binaria(texto, tabela, &binary_size);
   vetor = binaria_para_vetor(bin, binary_size);
   *tam_final = (binary_size + 7) / 8;
-
-  
   fwrite(vetor, *tam_final, 1, compactado);
-  free(bin);
-  free(vetor);
-  for(int i=0; i<256; i++){
-    free(tabela[i]);
-  }
 }

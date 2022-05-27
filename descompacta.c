@@ -75,8 +75,5 @@ void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto, s_node * arvor
   //printf("%s", bin);
 
   fwrite(texto, 1, strlen(texto), arquivo_texto);
-  free(bin);
-  free(vetor);
-  free(texto);
   
 }

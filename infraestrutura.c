@@ -173,16 +173,16 @@ void swap(int *a, int *b)
   *b = tmp;
 }
 
-// function to find the libera_arvorertition position
-int libera_arvorertition(int array[], int low, int high) 
+// function to find the partition position
+int partition(int array[], int low, int high) 
 {
   // seleciona o elemento mais a direita como pivot
   int pivot = array[high];
   
-  // ponteiro libera_arvorera maior elemento
+  // ponteiro para maior elemento
   int i = (low - 1);
 
-  // percorre cada elemento do array e comlibera_arvorera com o pivot
+  // percorre cada elemento do array e compara com o pivot
   for (int j = low; j < high; j++) 
   {
     if (array[j] <= pivot) 
@@ -198,7 +198,7 @@ int libera_arvorertition(int array[], int low, int high)
   // troca o elemento pivot com o maior elemento (i)
   swap(&array[i + 1], &array[high]);
   
-  // retorna o ponto de libera_arvorertição
+  // retorna o ponto de partição
   return (i + 1);
 }
 
@@ -212,12 +212,12 @@ void quickSort(int array[], int low, int high)
 
     // encotra o pivot tal que os elementos menores que ele estão na esquerda
     // e os maiores estão na direita
-    int pivot = libera_arvorertition(array, low, high);
+    int pivot = partition(array, low, high);
     
-    // recurção libera_arvorera a esquerda do pivot
+    // recurção para a esquerda do pivot
     quickSort(array, low, pivot - 1);
     
-    // recurção libera_arvorera a direita do pivot
+    // recurção para a direita do pivot
     quickSort(array, pivot + 1, high);
   }
   }
@@ -226,24 +226,5 @@ s_node * arvore_do_zero(char * texto){
   int * frequencias = coleta_frequencia(texto);
   s_node * min_heap = cria_min_heap(frequencias);
   s_node * arvore = cria_arvore(min_heap);
-
-  free(frequencias);
-  free(min_heap);
   return arvore;
-}
-void libera_arvore(s_node * raiz)
-{
-  if(raiz->left_child)
-  {
-    libera_arvore(raiz->left_child);
-  }
-  if(raiz->right_child){
-    libera_arvore(raiz->right_child);
-  }
-  if(!raiz->right_child && !raiz->left_child)
-  {
-    free(raiz);
-  }
-
-
 }
