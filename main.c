@@ -43,7 +43,8 @@ int main(void)
   FILE * comp = fopen("compactado.dat", "rb");
   FILE * txt = fopen("novo.txt", "w");
   descompacta(comp, txt, arvore, size);
-  
+  fclose(comp);
+  fclose(txt);
   //char tabela[128][128];
 
   //preenche_tabela(arvore, tabela);
