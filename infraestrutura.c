@@ -22,16 +22,16 @@ int * coleta_frequencia(char * amostra)
 }
 
 // Sobe nó na min heap até a sua posição correta
-void sobe_no_mh(s_node heap[], int i)
+void sobe_no_mh(s_node * heap[], int i)
 {
   int j;
-  s_node aux;
+  s_node * aux;
  
   j = (i - 1) / 2;
   
   if (j >= 0)
   {
-    if (heap[i].value < heap[j].value)
+    if (heap[i]->value < heap[j]->value)
     {
       aux = heap[i];
       heap[i] = heap[j];
@@ -42,47 +42,51 @@ void sobe_no_mh(s_node heap[], int i)
 }
 
 // Recebe um nó e insere na min heap
-void insere_no_mh(s_node heap[], s_node no, int tam)
+void insere_no_mh(s_node * heap[], s_node * no, int tam)
 {
   heap[tam] = no;
   sobe_no_mh(heap, tam);
 }
 
 // Recebe o vetor de frequências e devolve a raiz do min heap correspondente
-s_node * cria_min_heap(int * frequencias)
+s_node ** cria_min_heap(int * frequencias)
 {
-  s_node * min_heap = (s_node *)malloc(256 * sizeof(s_node));
+  s_node ** min_heap = malloc(256 * sizeof(s_node *));
   
   for(int i=0; i<256; i++)
   {
-    s_node no = {.value = frequencias[i], .symbol=(char)i, .left_child=NULL, .right_child=NULL};
+    s_node * no = malloc(sizeof(s_node));
+    no->value = frequencias[i] ;
+    no->symbol=(char)i;
+    no->left_child=NULL;
+    no->right_child=NULL;
     insere_no_mh(min_heap, no, i);
   }
   /*
   for(int i =0; i<256; i++){
-    printf("%c %d\n", min_heap[i].symbol,  min_heap[i].value);
-  }*/
+    printf("%c %d\n", min_heap[i]->symbol,  min_heap[i]->value);
+  */
   
   return min_heap;
 }
 
 
 // Desce nó na min heap até a sua posição correta
-void desce_no_mh(s_node heap[], int i, int tam)
+void desce_no_mh(s_node * heap[], int i, int tam)
 {
   int j;
-  s_node aux;
+  s_node * aux;
   j = (2 * i) + 1;
   
   if (j <= tam) 
   {
     if (j < tam)
     {
-      if (heap[j + 1].value < heap[j].value)
+      if (heap[j + 1]->value < heap[j]->value)
       {
         j++;
       }
-      if (heap[i].value > heap[j].value) 
+      if (heap[i]->value > heap[j]->value) 
       {
         aux = heap[i];
         heap[i] = heap[j];
@@ -95,8 +99,9 @@ void desce_no_mh(s_node heap[], int i, int tam)
 }
 
 // Remove raiz do heap
-void remove_no_mh(s_node heap[], int tam)
+void remove_no_mh(s_node * heap[], int tam)
 {
+  
   heap[0] = heap[tam - 1];
   tam--;
   desce_no_mh(heap, 0, tam);
@@ -125,43 +130,47 @@ void printa_arvore(s_node * raiz)
 }
 
 // Recebe o vetor de frequencias e devolve a raiz da árvore de huffman correspondente
-s_node * cria_arvore(s_node * min_heap)
+s_node * cria_arvore(s_node ** min_heap)
 {
   int tam_heap = 256;
   
   while(tam_heap > 1)
   {
-    s_node * menor = (s_node *)malloc(sizeof(s_node));
-    s_node * segundo_menor = (s_node *)malloc(sizeof(s_node));
-    s_node * no_interno = (s_node *)malloc(sizeof(s_node));
-    
-    *menor = min_heap[0];
+    s_node * menor;
+    s_node * segundo_menor;
+    s_node * no_interno;
+
+    menor = min_heap[0];
     remove_no_mh(min_heap, tam_heap);
     tam_heap--;
-    
-    *segundo_menor = min_heap[0];
+
+    segundo_menor = min_heap[0];
     remove_no_mh(min_heap, tam_heap);
-    tam_heap--;
     
+    tam_heap--;
+
+    no_interno = malloc(sizeof(s_node));
+    no_interno->symbol = 0;
     no_interno->value = menor->value + segundo_menor->value;
     no_interno->left_child = menor;
     no_interno->right_child = segundo_menor;
-    
+    //printf("(%d %d %d) (%p %p %p)\n", no_interno->value, no_interno->left_child->value, no_interno->right_child->value, no_interno, no_interno->left_child, no_interno->right_child);
 
-    insere_no_mh(min_heap, *no_interno, tam_heap);
+    insere_no_mh(min_heap, no_interno, tam_heap);
     tam_heap++;
 
   }
   
+  
   //printa_arvore(min_heap);
  
-  return min_heap;
+  return *min_heap;
 }
 
 
-void printa_heap(s_node * min_heap){
+void printa_heap(s_node ** min_heap){
   for(int i=0; i<256;i++){
-    printf("%d Simbolo: %c, Valor: %d\n", i, min_heap[i].symbol, min_heap[i].value);
+    printf("%d Simbolo: %c, Valor: %d\n", i, min_heap[i]->symbol, min_heap[i]->value);
   }
 }
 
@@ -224,7 +233,18 @@ void quickSort(int array[], int low, int high)
 
 s_node * arvore_do_zero(char * texto){
   int * frequencias = coleta_frequencia(texto);
-  s_node * min_heap = cria_min_heap(frequencias);
+  s_node ** min_heap = cria_min_heap(frequencias);
   s_node * arvore = cria_arvore(min_heap);
+  free(frequencias);
+  free(min_heap);
   return arvore;
+}
+
+void libera_arvore(s_node * raiz){
+  if(!raiz){
+    return;
+  }
+  libera_arvore(raiz->left_child);
+  libera_arvore(raiz->right_child);
+  free(raiz);
 }

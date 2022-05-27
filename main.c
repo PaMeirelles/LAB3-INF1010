@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "compacta.h" 
 #include "descompacta.h" 
 #include "infraestrutura.h"
@@ -33,6 +34,7 @@ int main(void)
 
   //printf("\n%s\n", teste);
   s_node * arvore = arvore_do_zero(teste);
+  //pa(arvore);
   compacta(teste, compactado, arvore, &size);
 
   fclose(texto);
@@ -50,6 +52,8 @@ int main(void)
   //printf("\n%s\n", bin);
   //char * normal = binaria_para_string(bin, arvore);
   //printf("\n %s\n", normal);
+  free(teste);
+  libera_arvore(arvore);
 
   return 0;
 }
