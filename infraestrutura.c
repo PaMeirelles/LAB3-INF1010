@@ -1,6 +1,7 @@
 #include "infraestrutura.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 // Recebe um vetor de char com a amostra e devolve um vetor de char indexado pelo código ASCII com a frequência daquele char na amostra
 int * coleta_frequencia(char * amostra)
@@ -105,28 +106,6 @@ void remove_no_mh(s_node * heap[], int tam)
   heap[0] = heap[tam - 1];
   tam--;
   desce_no_mh(heap, 0, tam);
-}
-
-void printa_arvore(s_node * raiz)
-{
-  if(!raiz)
-  {
-    printf("NULL\n");
-  }
-  else
-  {
-    if(!raiz->left_child && !raiz->right_child)
-    {
-      printf("%c %d\n", raiz->symbol, raiz->value);
-    }
-    else
-    {
-      printf("Intermediário %d\n", raiz->value);
-    }
-    
-    printa_arvore(raiz->left_child);
-    printa_arvore(raiz->right_child);
-  }
 }
 
 // Recebe o vetor de frequencias e devolve a raiz da árvore de huffman correspondente
@@ -247,4 +226,52 @@ void libera_arvore(s_node * raiz){
   libera_arvore(raiz->left_child);
   libera_arvore(raiz->right_child);
   free(raiz);
+}
+void printa_arvore(s_node * raiz)
+{
+  if(raiz->left_child)
+  {
+    printa_arvore(raiz->left_child);
+  }
+  if(raiz->right_child){
+    printa_arvore(raiz->right_child);
+  }
+  if(!raiz->right_child && !raiz->left_child)
+  {
+    printf("Símbolo: %c Código: %s Valor: %d\n", raiz->symbol, raiz->codigo, raiz->value);
+  }
+
+
+}
+char * le_arquivo(FILE * arquivo_texto)
+{
+  long lSize;
+  char *vetor_arq_str;
+
+  // Mede o número de chars no arquivo
+  fseek(arquivo_texto , 0L , SEEK_END);
+  lSize = ftell(arquivo_texto);
+  rewind(arquivo_texto);
+  
+  /* aloca memória para todo o conteúdo do texto*/
+  vetor_arq_str = (char *) malloc(lSize+2);
+
+  // checa se a alocação de memória funcionou
+  if(!vetor_arq_str) 
+  {
+    fclose(arquivo_texto);
+    fputs("memory alloc fails",stderr);
+    exit(1);
+  }
+  
+  /* copia arquivo para o vetor usando fread*/
+  if( 1 != fread(vetor_arq_str , lSize, 1 , arquivo_texto))
+  {
+    free(vetor_arq_str);
+    fputs("entire read fails",stderr);
+    exit(1);
+  }
+  char fim = 3;
+  strncat(vetor_arq_str, &fim, 1);
+  return vetor_arq_str;
 }

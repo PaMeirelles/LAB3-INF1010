@@ -21,3 +21,6 @@ int partition(int array[], int low, int high);
 void quickSort(int array[], int low, int high);
 s_node * arvore_do_zero(char * texto);
 void libera_arvore(s_node * raiz);
+void printa_arvore(s_node * raiz);
+
+char * le_arquivo(FILE * arquivo_texto);

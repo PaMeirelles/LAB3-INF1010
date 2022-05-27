@@ -65,36 +65,6 @@ unsigned char * binaria_para_vetor(char * string_binaria, long len)
 }
 
 // Lê o arquivo texto, transforma a string num vetor de bytes e grava esse vetor no arquivo fornecido
-char * le_arquivo(FILE * arquivo_texto)
-{
-  long lSize;
-  char *vetor_arq_str;
-
-  // Mede o número de chars no arquivo
-  fseek(arquivo_texto , 0L , SEEK_END);
-  lSize = ftell(arquivo_texto);
-  rewind(arquivo_texto);
-  
-  /* aloca memória para todo o conteúdo do texto*/
-  vetor_arq_str = (char *) malloc(lSize+1);
-
-  // checa se a alocação de memória funcionou
-  if(!vetor_arq_str) 
-  {
-    fclose(arquivo_texto);
-    fputs("memory alloc fails",stderr);
-    exit(1);
-  }
-  
-  /* copia arquivo para o vetor usando fread*/
-  if( 1 != fread(vetor_arq_str , lSize, 1 , arquivo_texto))
-  {
-    free(vetor_arq_str);
-    fputs("entire read fails",stderr);
-    exit(1);
-  }
-  return vetor_arq_str;
-}
 
 
 void compacta(char * texto, FILE * compactado, s_node * arvore, long * tam_final){
