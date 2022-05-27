@@ -9,7 +9,7 @@
 int main(void)
 {
   // Abrimos o arquivo a ser lido e criamos um para receber a versão compactada
-  FILE * texto = fopen("poema_certo.txt", "r");
+  FILE * texto = fopen("texto.txt", "r");
   FILE * compactado = fopen("compactado.dat", "wb");
 
   // Lemos o arquivo fonte e extraímos a string correspondente
@@ -17,7 +17,7 @@ int main(void)
 
   // Variáveis que guardarão a árvore e o tamanho do arquivo compactado. Em usos práticos, seria necessário enviar ambos para quem fosse descompactar o arquivo
   long size;
-  s_node * arvore = arvore_do_zero(mensagem);
+  s_node * arvore = arvore_de_huffman(mensagem);
 
   // Compactamos o arquivo
   compacta(mensagem, compactado, arvore, &size);

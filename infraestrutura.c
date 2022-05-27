@@ -4,10 +4,14 @@
 #include <string.h>
 
 // Recebe um vetor de char com a amostra e devolve um vetor de char indexado pelo código ASCII com a frequência daquele char na amostra
-int * coleta_frequencia(char * amostra)
-{
+int * coleta_frequencia(char * amostra){
+  /*
+   alocamos espaço para o vetor que guardará as frequências
+   A tabela ASCII expandida contém 256 caracteres, que é também o tamanho do nosso vetor. O valor numa posição i qualquer representa a frequência do caractere com código ASCII i no texto. É uma maneira elegante de substituir um dicionário
+  */
   int * vetor_de_frequencias = (int *)malloc(256 * 4);
 
+  // Inicializamos cada frequência como 0
   for(int i=0; i<256;i++)
   {
     vetor_de_frequencias[i] = 0;
@@ -15,6 +19,7 @@ int * coleta_frequencia(char * amostra)
   
   while(*amostra)
   {
+    // Para cada caractere na amostra, incrementamos a frequência dele
     vetor_de_frequencias[(unsigned char)*amostra]++;
     amostra++;
   }
@@ -25,18 +30,24 @@ int * coleta_frequencia(char * amostra)
 // Sobe nó na min heap até a sua posição correta
 void sobe_no_mh(s_node * heap[], int i)
 {
+  // Variáveis úteis
   int j;
   s_node * aux;
- 
+
+  // j é o "pai" de i
   j = (i - 1) / 2;
-  
+
+  // É importante garantir que j está dentro do vetor
   if (j >= 0)
   {
+    // Se j for maior que i, é necessário inverter suas posições, para que o menor elemento fique em cima
     if (heap[i]->value < heap[j]->value)
     {
+      // Usamos a estrutura auxiliar para fazer essa troca
       aux = heap[i];
       heap[i] = heap[j];
       heap[j] = aux;
+      // Chamamos a função recursivamente para subir o nó até onde seja necessário
       sobe_no_mh(heap, j);
     }
   }
@@ -45,6 +56,7 @@ void sobe_no_mh(s_node * heap[], int i)
 // Recebe um nó e insere na min heap
 void insere_no_mh(s_node * heap[], s_node * no, int tam)
 {
+  // Colocamos o nó no fim do vetor e subimos o mesmo até onde seja necessário
   heap[tam] = no;
   sobe_no_mh(heap, tam);
 }
@@ -52,22 +64,22 @@ void insere_no_mh(s_node * heap[], s_node * no, int tam)
 // Recebe o vetor de frequências e devolve a raiz do min heap correspondente
 s_node ** cria_min_heap(int * frequencias)
 {
+  /* A decisão de usar a heap para guardar os ponteiros invés das estruturas em si facilita a prevenção de memory leaks */
+  // Alocamos espaço para a nossa heap
   s_node ** min_heap = malloc(256 * sizeof(s_node *));
-  
+
   for(int i=0; i<256; i++)
   {
+    // Alocamos espaço para um nó. Posteriormente, usaremos os mesmos nós para criar a árvore 
     s_node * no = malloc(sizeof(s_node));
+    // Preenchemos o nó com os valores adequados
     no->value = frequencias[i] ;
     no->symbol=(char)i;
     no->left_child=NULL;
     no->right_child=NULL;
+    // Inserimos na heap
     insere_no_mh(min_heap, no, i);
   }
-  /*
-  for(int i =0; i<256; i++){
-    printf("%c %d\n", min_heap[i]->symbol,  min_heap[i]->value);
-  */
-  
   return min_heap;
 }
 
@@ -75,50 +87,58 @@ s_node ** cria_min_heap(int * frequencias)
 // Desce nó na min heap até a sua posição correta
 void desce_no_mh(s_node * heap[], int i, int tam)
 {
+  // Variáveis úteis
   int j;
   s_node * aux;
+  // j é o "filho" de i
   j = (2 * i) + 1;
-  
-  if (j <= tam) 
-  {
+
+  // Garantimos que j está contido no array
     if (j < tam)
     {
+    // i tem dois filhos. É interessante que j seja o menor deles
       if (heap[j + 1]->value < heap[j]->value)
       {
         j++;
       }
+      // Se o pai é maior que o filho, devemos trocá-los
       if (heap[i]->value > heap[j]->value) 
       {
+        // Usaremos o elemento auxiliar para isso
         aux = heap[i];
         heap[i] = heap[j];
         heap[j] = aux;
+        // Chamamos a função recursivamente, para descer até onde seja necessário
         desce_no_mh(heap, j, tam);
       }
     }
-  }
-
 }
 
 // Remove raiz do heap
 void remove_no_mh(s_node * heap[], int tam)
 {
-  
+  // Movemos o último elemento para a raiz
   heap[0] = heap[tam - 1];
+  // Atualizamos o tamanho
   tam--;
+  // Descemos até que a min heap esteja correta novamente
   desce_no_mh(heap, 0, tam);
 }
 
 // Recebe o vetor de frequencias e devolve a raiz da árvore de huffman correspondente
 s_node * cria_arvore(s_node ** min_heap)
 {
+  // Tamanho inicial da heap
   int tam_heap = 256;
-  
+  // Enquanto houver mais de um elemento, retiraremos da heap para inserir na árvore
   while(tam_heap > 1)
   {
+    // Variáveis úteis
     s_node * menor;
     s_node * segundo_menor;
     s_node * no_interno;
 
+    // Extraímos primeiro e o segundo nó com maior frequência
     menor = min_heap[0];
     remove_no_mh(min_heap, tam_heap);
     tam_heap--;
@@ -127,26 +147,19 @@ s_node * cria_arvore(s_node ** min_heap)
     remove_no_mh(min_heap, tam_heap);
     
     tam_heap--;
-
+    // Alocamos espaço para um novo nó intermediáro, que possui os dois menores como seu filho e a frequência como a soma deles
     no_interno = malloc(sizeof(s_node));
-    no_interno->symbol = 0;
     no_interno->value = menor->value + segundo_menor->value;
     no_interno->left_child = menor;
     no_interno->right_child = segundo_menor;
-    //printf("(%d %d %d) (%p %p %p)\n", no_interno->value, no_interno->left_child->value, no_interno->right_child->value, no_interno, no_interno->left_child, no_interno->right_child);
-
+    // Inserimos esse novo nó na heap
     insere_no_mh(min_heap, no_interno, tam_heap);
     tam_heap++;
-
   }
-  
-  
-  //printa_arvore(min_heap);
- 
   return *min_heap;
 }
 
-
+// Função auxiliar usada para debug
 void printa_heap(s_node ** min_heap){
   for(int i=0; i<256;i++){
     printf("%d Simbolo: %c, Valor: %d\n", i, min_heap[i]->symbol, min_heap[i]->value);
@@ -210,15 +223,19 @@ void quickSort(int array[], int low, int high)
   }
   }
 
-s_node * arvore_do_zero(char * texto){
+// Cria a arvore de Huffman
+s_node * arvore_de_huffman(char * texto){
+  // Usamos as funções do módulo para criar a árvore
   int * frequencias = coleta_frequencia(texto);
   s_node ** min_heap = cria_min_heap(frequencias);
   s_node * arvore = cria_arvore(min_heap);
+  // Liberamos os espaços de memória não mais necessários
   free(frequencias);
   free(min_heap);
   return arvore;
 }
 
+// Libera memória da árvore
 void libera_arvore(s_node * raiz){
   if(!raiz){
     return;
@@ -227,6 +244,8 @@ void libera_arvore(s_node * raiz){
   libera_arvore(raiz->right_child);
   free(raiz);
 }
+
+// Função auxiliar usada para debugging
 void printa_arvore(s_node * raiz)
 {
   if(raiz->left_child)
@@ -243,6 +262,8 @@ void printa_arvore(s_node * raiz)
 
 
 }
+
+// Extrai string de um arquivo de texto
 char * le_arquivo(FILE * arquivo_texto)
 {
   long lSize;

@@ -10,7 +10,7 @@ typedef struct node
 } s_node;
 #endif
 #include <stdio.h>
-#define MAXSIZE 10000
+#define MAXSIZE 1000000
 int * coleta_frequencia(char * amostra);
 s_node ** cria_min_heap(int * frequencias);
 s_node * cria_arvore(s_node ** min_heap);
@@ -19,7 +19,7 @@ void printa_heap(s_node ** heap);
 void swap(int *a, int *b);
 int partition(int array[], int low, int high);
 void quickSort(int array[], int low, int high);
-s_node * arvore_do_zero(char * texto);
+s_node * arvore_de_huffman(char * texto);
 void libera_arvore(s_node * raiz);
 void printa_arvore(s_node * raiz);
 
