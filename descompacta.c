@@ -51,6 +51,7 @@ char * vetor_para_binaria(unsigned char * vetor_de_bytes, long size){
 char * binaria_para_string(char * string_binaria, s_node * arvore){
   // Alocamos espaço para a string, criamos um buffer para o tamanho do código e para o símbolo
   char * str = (char *)malloc(MAXSIZE);
+  str[0] = '\0';
   int percorridos = 0;
   char prox;
   
@@ -89,7 +90,6 @@ void descompacta(FILE * arquivo_compactado, FILE * arquivo_texto, s_node * arvor
   vetor = arquivo_para_vetor(arquivo_compactado, size);
   bin = vetor_para_binaria(vetor, size);
   texto = binaria_para_string(bin, arvore);
-
   // Escrevemos no arquivo
   fwrite(texto, 1, strlen(texto), arquivo_texto);
   // Liberamos as áreas não mais necessárias

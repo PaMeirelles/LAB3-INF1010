@@ -9,7 +9,7 @@
 int main(void)
 {
   // Abrimos o arquivo a ser lido e criamos um para receber a versão compactada
-  FILE * texto = fopen("texto.txt", "r");
+  FILE * texto = fopen("poema.txt", "r");
   FILE * compactado = fopen("compactado.dat", "wb");
 
   // Lemos o arquivo fonte e extraímos a string correspondente
